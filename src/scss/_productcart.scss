@@ -1,0 +1,33 @@
+.carts {
+  width: 1200px;
+  margin: auto;
+}
+
+.product__cart {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 30px;
+  border: 1px solid yellowgreen;
+  text-align: center;
+  padding: 20px;
+
+  &__img {
+    width: 10%;
+  }
+  &__content {
+    flex: 0.9;
+    font-size: 1.6rem;
+    &__title {
+      font-weight: bold;
+      margin: 20px;
+    }
+    &__del {
+      border: none;
+      margin-top: 20px;
+      color: #fff;
+      background-color: orange;
+      padding: 0 6px;
+    }
+  }
+}

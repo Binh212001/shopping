@@ -1,0 +1,12 @@
+.hero {
+  display: flex;
+  background-color: $bg-content;
+  font-size: 1.3rem;
+  padding-top: 30px;
+  text-align: justify;
+  &_content {
+    margin: 10px auto;
+    text-align: center;
+    width: 84%;
+  }
+}

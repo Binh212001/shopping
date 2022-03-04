@@ -1,0 +1,16 @@
+.checkbox {
+  padding: 12px;
+  font-size: 1.5rem;
+  line-height: 20px;
+
+  &_item {
+    padding: 20px 0;
+    display: flex;
+    align-items: center;
+    &_input {
+    }
+
+    &_lable {
+    }
+  }
+}

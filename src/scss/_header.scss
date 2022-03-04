@@ -1,0 +1,117 @@
+.header {
+  font-size: 1.5rem;
+  color: $color-header;
+  height: 120px;
+  background-image: linear-gradient(0, #fe6332, #f53f2d);
+  padding-top: 5px;
+
+  // -----------------Start top----------------
+  .top {
+    @include flex(space-between, center);
+    // ---------top right--------
+    &_right {
+      @include flex(flex-start, center);
+      &_list {
+        @include flex(flex-start, center);
+        padding: 0 12px;
+        cursor: pointer;
+        &:first-child {
+          border-right: 1px solid rgb(202, 199, 199);
+        }
+        &_dowload {
+          padding: 0 12px;
+          border-right: 1px solid rgb(202, 199, 199);
+          position: relative;
+          .qr {
+            border-radius: 2px;
+            overflow: hidden;
+            position: absolute;
+            z-index: 999;
+            top: 106%;
+            left: -10%;
+            // visibility: hidden;
+            // opacity: 0;
+            display: none;
+
+            &_app {
+              @include flex(space-between, center);
+              color: black;
+              border-top: 5px solid #fff;
+              background-color: #fff;
+              transform: translateY(-5px);
+              border-radius: 2px;
+              overflow: hidden;
+              padding: 0 5px;
+            }
+          }
+          &:hover .qr {
+            display: block;
+          }
+        }
+
+        &_connect {
+          padding: 0 12px;
+        }
+      }
+    }
+
+    // ---------------top left--------
+    &_left {
+      @include flex(flex-start, center);
+      &_item {
+        padding-right: 12px;
+        cursor: pointer;
+        display: block;
+      }
+    }
+  }
+
+  // ----------------------start mid--------------
+  .mid {
+    margin-top: 20px;
+    @include flex(space-around, center);
+    .logo {
+      color: #fff;
+      cursor: pointer;
+      &::first-letter {
+        font-size: 30px;
+      }
+    }
+    .search {
+      border-radius: 2px;
+      padding: 1px;
+      background-color: #fff;
+      &_input {
+        height: 34px;
+        width: 650px;
+        outline: none;
+        border: none;
+        overflow: hidden;
+        display: inline-block;
+        padding-left: 8px;
+      }
+      &_node {
+        display: inline-block;
+        padding: 5px;
+        background-color: $bg-orange;
+        width: 50px;
+        height: 34px;
+        border: none;
+        color: #fff;
+        cursor: pointer;
+      }
+    }
+    .cart {
+      font-size: 50px;
+      cursor: pointer;
+    }
+  }
+
+  // ------------------start bottom-----------
+  .bottom {
+    @include flex(center, center);
+    &_item {
+      padding: 0 25px;
+    }
+  }
+}

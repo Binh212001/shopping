@@ -1,0 +1,48 @@
+.view {
+  max-width: 1200px;
+  width: 100%;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  padding: 30px 20px;
+  &__left {
+    &__img {
+      width: 50%;
+    }
+  }
+  &__right {
+    font-size: 1.6rem;
+    padding: 30px;
+    &__title {
+      margin-bottom: 30px;
+    }
+
+    &__des {
+      margin-bottom: 30px;
+    }
+
+    &__price {
+      margin-bottom: 30px;
+      font-weight: bold;
+    }
+
+    &__qty {
+      display: flex;
+      align-items: center;
+      margin-bottom: 30px;
+
+      &__btn {
+        padding: 8px;
+        background-color: rgb(179, 174, 174);
+        border: none;
+      }
+    }
+
+    &__buy {
+      margin-top: 30px;
+      background-color: rgb(247, 162, 4);
+      border: none;
+      padding: 4px;
+    }
+  }
+}

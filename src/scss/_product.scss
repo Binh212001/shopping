@@ -1,0 +1,52 @@
+@keyframes card {
+  from {
+    transform: translateX(-200px);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+.product-list {
+  max-width: 1200px;
+  width: 100%;
+  margin: auto;
+}
+.card {
+  text-align: center;
+  background-color: #fff;
+  border-radius: 2px;
+  border: 1px solid rgb(230, 156, 156);
+  padding: 20px;
+  overflow: hidden;
+
+  &__img {
+    width: 50%;
+    height: 250px;
+    padding: 20px;
+  }
+
+  &__title {
+    text-align: left;
+    white-space: pre-line;
+    font-weight: bold;
+    &:hover {
+      color: yellowgreen;
+    }
+  }
+
+  &__price {
+    text-align: left;
+    padding: 10px 0;
+    font-weight: bold;
+  }
+
+  &__rating {
+    text-align: left;
+    display: flex;
+    align-items: center;
+  }
+}
+
+.card:hover .card__img {
+  animation: card 0.8 ease-in-out;
+}

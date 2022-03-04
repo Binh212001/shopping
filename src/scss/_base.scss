@@ -1,0 +1,56 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+body,
+html {
+  font-size: 62.5%;
+  font-family: "Roboto", sans-serif;
+  font-family: "Times New Roman", Times, serif;
+}
+li {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+  color: unset;
+}
+
+button {
+  border-radius: 4px;
+  cursor: pointer;
+  height: 34px;
+}
+
+@each $val in $number {
+  .grid-col-#{$val} {
+    grid-template-columns: repeat($val, 1fr);
+  }
+}
+
+@each $val in $number {
+  .grid-col-md-#{$val} {
+    @include tablet {
+      grid-template-columns: repeat($val, 1fr);
+    }
+  }
+}
+@each $val in $number {
+  .grid-col-sm-#{$val} {
+    @include mobile {
+      grid-template-columns: repeat($val, 1fr);
+    }
+  }
+}
+
+.grid {
+  display: grid;
+}
+.routefilter {
+  background-color: rgb(217, 223, 223);
+  padding-top: 40px;
+  text-align: center;
+  font-size: 1.4rem;
+}
