@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import { getCart } from '../app/CartSlice';
 
 import { AuthContext } from '../feature/Auth/SignIn/AuthProvider';
 
@@ -16,11 +15,11 @@ function Cart() {
   );
   const history = useHistory();
 
-  // const product = useCart();
-
   const item = useSelector(
     (state) => state.Productoncart.products
   );
+
+  const product = useCart();
 
   const dispatch = useDispatch();
   // neu chua co user dang nhap thi quay lai dang nhap
@@ -28,6 +27,7 @@ function Cart() {
   if (!user) {
     history.push('/login');
   }
+
   return (
     <div className="carts">
       {item.map((item, index) => {

@@ -74,7 +74,7 @@ function Header() {
             Hỗ trợ
           </div>
           <div className="top_left_item">
-            <Link to="/loggin">Dăng kí | Đăng nhâp</Link>
+            <Link to="/login">Dăng kí | Đăng nhâp</Link>
           </div>
         </div>
       </div>

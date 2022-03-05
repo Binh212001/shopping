@@ -14,7 +14,10 @@ import { db } from '../Firesbase/FirebaseConfig';
 
 function useCart() {
   const user = useContext(AuthContext);
-  const { uid } = user;
+  console.log(
+    '🚀 ~ file: useCart.js ~ line 17 ~ useCart ~ user',
+    user
+  );
 
   const [productCart, setProductCart] = useState();
   console.log(
@@ -23,13 +26,15 @@ function useCart() {
   );
 
   useEffect(() => {
-    get(uid);
-  }, [uid]);
+    if (user) {
+      get(user);
+    }
+  }, [user]);
 
-  const get = async (uid) => {
+  const get = async (user) => {
     const q = query(
       collection(db, 'cart'),
-      where('uid', '==', uid)
+      where('user', '==', user)
     );
 
     const querySnapshot = await getDocs(q);
