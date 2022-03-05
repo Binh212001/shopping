@@ -33,11 +33,13 @@ function ProductView() {
     sum: qty * item.products.price,
     ...user,
   };
-  const onClickPr = (product) => {
-    alert('Mua hàng thành công');
-    dispatch(addNewProduct(product));
-
-    history.push('/cart');
+  const onClickPr = (product, user) => {
+    if (Object.keys(user).length > 0) {
+      alert('Mua hàng thành công');
+      dispatch(addNewProduct(product));
+      history.push('/cart');
+    }
+    history.push('/login');
   };
   if (item.status === true) {
     return <div>Loading</div>;
@@ -91,7 +93,7 @@ function ProductView() {
         <button
           className="view__right__buy"
           onClick={() => {
-            onClickPr(product);
+            onClickPr(product, user);
           }}
         >
           Mua Hang
