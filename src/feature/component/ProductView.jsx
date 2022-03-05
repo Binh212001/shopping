@@ -6,9 +6,12 @@ import React, {
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useHistory } from 'react-router';
 import { getByid } from '../../app/GetIDSlice';
+import { doc, setDoc } from 'firebase/firestore';
 
 import { addNewProduct } from '../../app/CartSlice';
 import { AuthContext } from '../Auth/SignIn/AuthProvider';
+import { db } from '../../Firesbase/FirebaseConfig';
+import { v4 as uuidv4 } from 'uuid';
 
 function ProductView() {
   const [qty, setqty] = useState(1);
@@ -33,13 +36,18 @@ function ProductView() {
     sum: qty * item.products.price,
     ...user,
   };
-  const onClickPr = (product, user) => {
-    if (Object.keys(user).length > 0) {
+  const onClickPr = async (product, user) => {
+    if (user.uid) {
       alert('Mua hàng thành công');
       dispatch(addNewProduct(product));
       history.push('/cart');
+      await setDoc(doc(db, 'cart', uuidv4()), {
+        ...product,
+      });
+      history.push('/cart');
+    } else {
+      history.push('/login');
     }
-    history.push('/login');
   };
   if (item.status === true) {
     return <div>Loading</div>;

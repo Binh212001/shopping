@@ -11,7 +11,7 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 const provider = new GoogleAuthProvider();
 
-function Loggin() {
+function Login() {
   const history = useHistory();
 
   const handleSignIn = () => {
@@ -33,4 +33,4 @@ function Loggin() {
   );
 }
 
-export default Loggin;
+export default Login;

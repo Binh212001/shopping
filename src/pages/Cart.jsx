@@ -1,28 +1,33 @@
 import React, { useContext, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import { getItem } from '../app/CartSlice';
+import { getCart } from '../app/CartSlice';
+
 import { AuthContext } from '../feature/Auth/SignIn/AuthProvider';
 
 import ProductCart from '../feature/component/ProductCart';
+import useCart from '../service/useCart';
 
 function Cart() {
   const user = useContext(AuthContext);
+  console.log(
+    '🚀 ~ file: Cart.jsx ~ line 13 ~ Cart ~ user',
+    user
+  );
+  const history = useHistory();
+
+  // const product = useCart();
+
   const item = useSelector(
     (state) => state.Productoncart.products
   );
-  console.log(
-    '🚀 ~ file: Cart.jsx ~ line 9 ~ Cart ~ item',
-    item
-  );
 
-  const history = useHistory();
-
+  const dispatch = useDispatch();
   // neu chua co user dang nhap thi quay lai dang nhap
+
   if (!user) {
     history.push('/login');
   }
-
   return (
     <div className="carts">
       {item.map((item, index) => {

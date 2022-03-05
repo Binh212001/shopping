@@ -3,22 +3,32 @@ import {
   createSlice,
 } from '@reduxjs/toolkit';
 import { db } from '../Firesbase/FirebaseConfig';
-
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+} from 'firebase/firestore';
 export const getCart = createAsyncThunk(
   'getCart/CartSlice',
-  async (uid) => {
-    db.collection('cities')
-      .where('uid', '==', uid)
-      .get()
-      .then((querySnapshot) => {
+  async (user) => {
+    try {
+      if (user) {
+        const q = query(
+          collection(db, 'cart'),
+          where('uid', '==', user.uid)
+        );
+        const response = [];
+        const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
-          // doc.data() is never undefined for query doc snapshots
-          console.log(doc.id, ' => ', doc.data());
+          response.push(doc.data());
         });
-      })
-      .catch((error) => {
-        console.log('Error getting documents: ', error);
-      });
+
+        return response;
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 );
 const CartSlice = createSlice({
@@ -29,10 +39,6 @@ const CartSlice = createSlice({
   },
   reducers: {
     addNewProduct: (state, { payload }) => {
-      console.log(
-        '🚀 ~ file: CartSlice.js ~ line 11 ~ payload',
-        payload
-      );
       state.products.push(payload);
     },
 
@@ -41,6 +47,19 @@ const CartSlice = createSlice({
         state.products,
         action.payload
       );
+    },
+  },
+
+  extraReducers: {
+    [getCart.pending]: (state) => {
+      state.status = true;
+    },
+    [getCart.fulfilled]: (state, action) => {
+      state.products = action.payload;
+      state.status = true;
+    },
+    [getCart.rejected]: (state) => {
+      state.status = false;
     },
   },
 });
