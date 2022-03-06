@@ -8,7 +8,6 @@ import { useParams, useHistory } from 'react-router';
 import { getByid } from '../../app/GetIDSlice';
 import { doc, setDoc } from 'firebase/firestore';
 
-import { addNewProduct } from '../../app/CartSlice';
 import { AuthContext } from '../Auth/SignIn/AuthProvider';
 import { db } from '../../Firesbase/FirebaseConfig';
 import { v4 as uuidv4 } from 'uuid';
@@ -37,12 +36,12 @@ function ProductView() {
     ...user,
   };
   const onClickPr = async (product, user) => {
-    if (user.uid) {
-      alert('Mua hàng thành công');
-      dispatch(addNewProduct(product));
+    if (user) {
+      const pid = uuidv4();
       history.push('/cart');
-      await setDoc(doc(db, 'cart', uuidv4()), {
+      await setDoc(doc(db, 'cart', pid), {
         ...product,
+        pid,
       });
       history.push('/cart');
     } else {

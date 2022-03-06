@@ -9,7 +9,7 @@ import { auth } from '../../../Firesbase/FirebaseConfig';
 export const AuthContext = createContext();
 
 function AuthProvider({ children }) {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const unsubcribed = onAuthStateChanged(auth, (user) => {
@@ -23,7 +23,6 @@ function AuthProvider({ children }) {
         });
         return;
       }
-      setUser({});
     });
     return () => {
       unsubcribed();

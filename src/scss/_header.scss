@@ -62,10 +62,23 @@
         padding-right: 12px;
         cursor: pointer;
         display: block;
+        position: relative;
+        text-align: center;
+        margin-right: 10px;
+      }
+      .top_left_item_sign_out {
+        position: absolute;
+        background-color: rgb(172, 158, 158);
+        width: 100%;
+        display: none;
+        line-height: 1.8rem;
+        border-radius: 3px;
+      }
+      &:last-child:hover .top_left_item_sign_out {
+        display: block;
       }
     }
   }
-
   // ----------------------start mid--------------
   .mid {
     margin-top: 20px;

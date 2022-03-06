@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 
 import { Link } from 'react-router-dom';
-
+import { getAuth, signOut } from 'firebase/auth';
 import QRcode from '../img/QRcode.png';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import FacebookIcon from '@mui/icons-material/Facebook';
@@ -17,13 +17,19 @@ import { AuthContext } from './Auth/SignIn/AuthProvider';
 function Header() {
   const [Search, setSearch] = useState('');
 
+  const [acc, setacc] = useState(true);
   const user = useContext(AuthContext);
+  console.log(
+    '🚀 ~ file: Header.jsx ~ line 22 ~ Header ~ user',
+    user
+  );
   const history = useHistory();
   const handleSearch = (e) => {
     const value = e.target.value;
     setSearch(value);
   };
 
+  //khi khong co user dang nhap
   const handleCart = (user) => {
     if (!user.uid) {
       history.push('/login');
@@ -31,6 +37,19 @@ function Header() {
       history.push('/cart');
     }
   };
+
+  //dang xuat
+  const handelSignOut = () => {
+    const auth = getAuth();
+    signOut(auth)
+      .then(() => {
+        setacc(false);
+      })
+      .catch((error) => {
+        throw error;
+      });
+  };
+
   return (
     <div className="header">
       {/* header top */}
@@ -73,9 +92,23 @@ function Header() {
             <HelpOutlineIcon />
             Hỗ trợ
           </div>
-          <div className="top_left_item">
-            <Link to="/login">Dăng kí | Đăng nhâp</Link>
-          </div>
+          {user && acc ? (
+            <div className="top_left_item">
+              {user.displayName}
+              <div
+                onClick={() => {
+                  handelSignOut();
+                }}
+                className="top_left_item_sign_out"
+              >
+                Đăng Xuất
+              </div>
+            </div>
+          ) : (
+            <div className="top_left_item">
+              <Link to="/login">Đăng nhâp</Link>
+            </div>
+          )}
         </div>
       </div>
 

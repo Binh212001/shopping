@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { removeProduct } from '../../app/CartSlice';
-import { useDispatch } from 'react-redux';
+import { doc, deleteDoc } from 'firebase/firestore';
+import { db } from '../../Firesbase/FirebaseConfig';
 
 function ProductCart(props) {
   const item = props;
@@ -10,12 +10,10 @@ function ProductCart(props) {
     item
   );
 
-  const dispatch = useDispatch();
-
-  const handleRemove = (id) => {
-    dispatch(removeProduct(id));
+  const handleRemove = async (pid) => {
+    await deleteDoc(doc(db, 'cart', pid));
+    props.onRemove(pid);
   };
-
   return (
     <div className="product__cart">
       <img
@@ -34,7 +32,7 @@ function ProductCart(props) {
         <button
           className="product__cart__content__del"
           onClick={() => {
-            handleRemove(item.item.id);
+            handleRemove(item.item.pid);
           }}
         >
           Xóa sản phẩm

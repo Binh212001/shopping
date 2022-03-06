@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
 * {
   padding: 0;
   margin: 0;
@@ -7,8 +7,8 @@
 body,
 html {
   font-size: 62.5%;
-  font-family: "Roboto", sans-serif;
-  font-family: "Times New Roman", Times, serif;
+  font-family: 'Roboto', sans-serif;
+  font-family: 'Times New Roman', Times, serif;
 }
 li {
   list-style: none;
@@ -53,4 +53,10 @@ button {
   padding-top: 40px;
   text-align: center;
   font-size: 1.4rem;
+}
+
+.carttitle {
+  text-align: center;
+  font-size: 4rem;
+  margin-top: 5rem;
 }

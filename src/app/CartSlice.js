@@ -12,25 +12,28 @@ import {
 export const getCart = createAsyncThunk(
   'getCart/CartSlice',
   async (user) => {
+    console.log(
+      '🚀 ~ file: CartSlice.js ~ line 15 ~ user',
+      user
+    );
     try {
-      if (user) {
-        const q = query(
-          collection(db, 'cart'),
-          where('uid', '==', user.uid)
-        );
-        const response = [];
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-          response.push(doc.data());
-        });
+      const q = query(
+        collection(db, 'cart'),
+        where('uid', '==', user.uid)
+      );
+      const response = [];
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        response.push(doc.data());
+      });
 
-        return response;
-      }
+      return response;
     } catch (error) {
       console.log(error);
     }
   }
 );
+
 const CartSlice = createSlice({
   name: 'CartSlice',
   initialState: {
@@ -38,11 +41,8 @@ const CartSlice = createSlice({
     status: null,
   },
   reducers: {
-    addNewProduct: (state, { payload }) => {
-      state.products.push(payload);
-    },
-
     removeProduct: (state, action) => {
+      console.log(action.payload);
       state.products = delItem(
         state.products,
         action.payload
@@ -54,8 +54,8 @@ const CartSlice = createSlice({
     [getCart.pending]: (state) => {
       state.status = true;
     },
-    [getCart.fulfilled]: (state, action) => {
-      state.products = action.payload;
+    [getCart.fulfilled]: (state, { payload }) => {
+      state.products = payload;
       state.status = true;
     },
     [getCart.rejected]: (state) => {
@@ -64,8 +64,7 @@ const CartSlice = createSlice({
   },
 });
 
-let delItem = (arr, id) => arr.filter((e) => e.id !== id);
+let delItem = (arr, id) => arr.filter((e) => e.pid !== id);
 
-export const { addNewProduct, removeProduct } =
-  CartSlice.actions;
+export const { removeProduct } = CartSlice.actions;
 export default CartSlice.reducer;
