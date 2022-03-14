@@ -1,5 +1,6 @@
-import React, { useContext, useState } from 'react';
-
+import React, { useState, useEffect } from 'react';
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 import { Link } from 'react-router-dom';
 import { getAuth, signOut } from 'firebase/auth';
 import QRcode from '../img/QRcode.png';
@@ -12,26 +13,38 @@ import SearchIcon from '@mui/icons-material/Search';
 import GoogleIcon from '@mui/icons-material/Google';
 import ShopIcon from '@mui/icons-material/Shop';
 import { useHistory } from 'react-router-dom';
-import { AuthContext } from './Auth/SignIn/AuthProvider';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { getUser, removeUser } from '../app/UserSlice';
+
+import AuthProvider from './Auth/SignIn/AuthProvider';
 
 function Header() {
   const [Search, setSearch] = useState('');
 
-  const [acc, setacc] = useState(true);
-  const user = useContext(AuthContext);
-  console.log(
-    '🚀 ~ file: Header.jsx ~ line 22 ~ Header ~ user',
-    user
-  );
+  const [openMenu, setOpenmenu] = useState(false);
+
+  const useUser = AuthProvider();
+
+  const dispatch = useDispatch();
+  const dataUser = useSelector((state) => state.User.user);
+
   const history = useHistory();
   const handleSearch = (e) => {
     const value = e.target.value;
     setSearch(value);
   };
 
+  useEffect(() => {
+    if (useUser) {
+      dispatch(getUser(useUser));
+    }
+  }, [useUser, dispatch]);
+
   //khi khong co user dang nhap
   const handleCart = (user) => {
-    if (!user.uid) {
+    console.log('🚀 ~ file: Header.jsx ~ line 51 ~ handleCart ~ user', user);
+    if (!user) {
       history.push('/login');
     } else {
       history.push('/cart');
@@ -41,23 +54,40 @@ function Header() {
   //dang xuat
   const handelSignOut = () => {
     const auth = getAuth();
+
     signOut(auth)
       .then(() => {
-        setacc(false);
+        dispatch(removeUser());
       })
       .catch((error) => {
         throw error;
       });
   };
 
+  const onMenu = () => {
+    setOpenmenu(!openMenu);
+  };
+
   return (
     <div className="header">
+      {openMenu ? (
+        <span
+          onClick={() => onMenu()}
+          className="header_menu_close header_menu"
+        >
+          <CloseIcon />
+        </span>
+      ) : (
+        <span onClick={() => onMenu()} className="header_menu_open header_menu">
+          <MenuIcon />
+        </span>
+      )}
+
       {/* header top */}
+
       <div className="top">
         <div className="top_right">
-          <div className="top_right_list">
-            Trở thành người bán trên Shooee
-          </div>
+          <div className="top_right_list">Trở thành người bán trên Shooee</div>
 
           <div className="top_right_list">
             <div className="top_right_list_dowload">
@@ -92,9 +122,10 @@ function Header() {
             <HelpOutlineIcon />
             Hỗ trợ
           </div>
-          {user && acc ? (
+          {dataUser ? (
             <div className="top_left_item">
-              {user.displayName}
+              {dataUser.displayName}
+
               <div
                 onClick={() => {
                   handelSignOut();
@@ -135,12 +166,10 @@ function Header() {
         <div className="cart">
           <div
             onClick={() => {
-              handleCart(user);
+              handleCart(dataUser);
             }}
           >
-            <ShoppingCartIcon
-              style={{ fontSize: '40px', color: '#fff' }}
-            />
+            <ShoppingCartIcon style={{ fontSize: '40px', color: '#fff' }} />
           </div>
         </div>
       </div>

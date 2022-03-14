@@ -1,22 +1,16 @@
-import React, { useContext, useEffect } from 'react';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-
-import { AuthContext } from '../feature/Auth/SignIn/AuthProvider';
+import React, { useEffect } from 'react';
 
 import ProductCart from '../feature/component/ProductCart';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { getCart, removeProduct } from '../app/CartSlice';
-import useCart from '../service/useCart';
 
 function Cart() {
-  const user = useContext(AuthContext);
+  const user = useSelector((state) => state.User.user);
 
   const dispatch = useDispatch();
 
-  const product = useSelector(
-    (state) => state.Productoncart.products
-  );
+  const product = useSelector((state) => state.Productoncart.products);
 
   const onRemove = (pid) => {
     dispatch(removeProduct(pid));
@@ -29,23 +23,13 @@ function Cart() {
 
   return (
     <div className="carts">
-      {product.length > 0 ? (
+      {product.length >= 0 ? (
         <h2 className="carttitle">
           Bạn có {product.length} sản phẩm trong giỏ hàng
         </h2>
-      ) : (
-        <h2 className="carttitle">
-          Bạn không có sản phảm nào trong giỏ hàng
-        </h2>
-      )}
+      ) : null}
       {product.map((item, index) => {
-        return (
-          <ProductCart
-            onRemove={onRemove}
-            key={index}
-            item={item}
-          />
-        );
+        return <ProductCart onRemove={onRemove} key={index} item={item} />;
       })}
     </div>
   );

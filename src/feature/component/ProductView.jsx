@@ -1,27 +1,23 @@
-import React, {
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useHistory } from 'react-router';
 import { getByid } from '../../app/GetIDSlice';
 import { doc, setDoc } from 'firebase/firestore';
 
-import { AuthContext } from '../Auth/SignIn/AuthProvider';
 import { db } from '../../Firesbase/FirebaseConfig';
 import { v4 as uuidv4 } from 'uuid';
 
 function ProductView() {
-  const [qty, setqty] = useState(1);
-
-  const dispatch = useDispatch();
-  const item = useSelector((state) => state.Productid);
-
   const id = useParams();
   const history = useHistory();
-  const user = useContext(AuthContext);
 
+  const [qty, setqty] = useState(1);
+  const dispatch = useDispatch();
+
+  const item = useSelector((state) => state.Productid);
+
+  const user = useSelector((state) => state.User.user);
+  const { displayName, email, uid } = user;
   useEffect(() => {
     dispatch(getByid(id));
   }, [dispatch, id]);
@@ -33,7 +29,9 @@ function ProductView() {
     ...item,
     quantyti: qty,
     sum: qty * item.products.price,
-    ...user,
+    displayName,
+    email,
+    uid,
   };
   const onClickPr = async (product, user) => {
     if (user) {
@@ -62,15 +60,9 @@ function ProductView() {
         />
       </div>
       <div className="view__right">
-        <h2 className="view__right__title">
-          {item.products.title}
-        </h2>
-        <div className="view__right__des">
-          {item.products.description}
-        </div>
-        <div className="view__right__price">
-          {item.products.price}$
-        </div>
+        <h2 className="view__right__title">{item.products.title}</h2>
+        <div className="view__right__des">{item.products.description}</div>
+        <div className="view__right__price">{item.products.price}$</div>
         <div className="view__right__qty">
           <button
             className="view__right__qty__btn"
@@ -82,9 +74,7 @@ function ProductView() {
           >
             -
           </button>
-          <span className="view__right__qty__amount">
-            {qty}
-          </span>
+          <span className="view__right__qty__amount">{qty}</span>
           <button
             className="view__right__qty__btn"
             onClick={() => {

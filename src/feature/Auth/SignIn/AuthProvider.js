@@ -1,15 +1,9 @@
 import { onAuthStateChanged } from 'firebase/auth';
-import React, {
-  createContext,
-  useState,
-  useEffect,
-} from 'react';
+import { useState, useEffect } from 'react';
 import { auth } from '../../../Firesbase/FirebaseConfig';
 
-export const AuthContext = createContext();
-
-function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
+function AuthProvider() {
+  const [user, setUser] = useState(undefined);
 
   useEffect(() => {
     const unsubcribed = onAuthStateChanged(auth, (user) => {
@@ -29,11 +23,7 @@ function AuthProvider({ children }) {
     };
   }, []);
 
-  return (
-    <AuthContext.Provider value={user}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return user;
 }
 
 export default AuthProvider;

@@ -1,18 +1,11 @@
 import { initializeApp } from 'firebase/app';
-import {
-  getFirestore,
-  connectFirestoreEmulator,
-} from 'firebase/firestore';
+import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
 
-import {
-  getAuth,
-  connectAuthEmulator,
-} from 'firebase/auth';
+import { getAuth, connectAuthEmulator } from 'firebase/auth';
 const firebaseConfig = {
   apiKey: 'AIzaSyA_z3PR0zmajaS7UFXjHljPSc6aAIqUSvs',
   authDomain: 'shopping-675ef.firebaseapp.com',
-  databaseURL:
-    'https://shopping-675ef-default-rtdb.firebaseio.com',
+  databaseURL: 'https://shopping-675ef-default-rtdb.firebaseio.com',
   projectId: 'shopping-675ef',
   storageBucket: 'shopping-675ef.appspot.com',
   messagingSenderId: '342522095339',
@@ -26,5 +19,5 @@ connectAuthEmulator(auth, 'http://localhost:9099');
 
 // firebaseApps previously initialized using initializeApp()
 const db = getFirestore();
-connectFirestoreEmulator(db, 'localhost', 8080);
+connectFirestoreEmulator(db, 'localhost', 8100);
 export { app, auth, db };

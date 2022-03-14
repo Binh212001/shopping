@@ -1,38 +1,20 @@
-import {
-  createAsyncThunk,
-  createSlice,
-} from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { db } from '../Firesbase/FirebaseConfig';
-import {
-  collection,
-  query,
-  where,
-  getDocs,
-} from 'firebase/firestore';
-export const getCart = createAsyncThunk(
-  'getCart/CartSlice',
-  async (user) => {
-    console.log(
-      '🚀 ~ file: CartSlice.js ~ line 15 ~ user',
-      user
-    );
-    try {
-      const q = query(
-        collection(db, 'cart'),
-        where('uid', '==', user.uid)
-      );
-      const response = [];
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        response.push(doc.data());
-      });
+import { collection, query, where, getDocs } from 'firebase/firestore';
+export const getCart = createAsyncThunk('getCart/CartSlice', async (user) => {
+  try {
+    const q = query(collection(db, 'cart'), where('uid', '==', user.uid));
+    const response = [];
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      response.push(doc.data());
+    });
 
-      return response;
-    } catch (error) {
-      console.log(error);
-    }
+    return response;
+  } catch (error) {
+    console.log(error);
   }
-);
+});
 
 const CartSlice = createSlice({
   name: 'CartSlice',
@@ -43,10 +25,13 @@ const CartSlice = createSlice({
   reducers: {
     removeProduct: (state, action) => {
       console.log(action.payload);
-      state.products = delItem(
-        state.products,
-        action.payload
-      );
+      state.products = delItem(state.products, action.payload);
+    },
+
+    updateProduct: (state, { payload }) => {
+      console.log('🚀 ~ file: CartSlice.js ~ line 53 ~ action', payload);
+
+      state.products.splice(findIndex(state.products, payload.pid), 1, payload);
     },
   },
 
@@ -65,6 +50,15 @@ const CartSlice = createSlice({
 });
 
 let delItem = (arr, id) => arr.filter((e) => e.pid !== id);
+const findIndex = (arr, id) => {
+  let pos = -1;
+  arr.forEach((arr, index) => {
+    if (arr.uid === id) {
+      pos = index;
+    }
+  });
 
-export const { removeProduct } = CartSlice.actions;
+  return pos;
+};
+export const { removeProduct, updateProduct } = CartSlice.actions;
 export default CartSlice.reducer;
