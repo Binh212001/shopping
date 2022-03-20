@@ -85,8 +85,8 @@ function Header() {
 
       {/* header top */}
 
-      <div className="top">
-        <div className="top_right">
+      <div className={`top  ${openMenu ? 'top_md_act' : 'top_md_hd'}`}>
+        <div className={`top_right`}>
           <div className="top_right_list">Trở thành người bán trên Shooee</div>
 
           <div className="top_right_list">

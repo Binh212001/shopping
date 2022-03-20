@@ -29,6 +29,17 @@
     @include tablet {
       display: block;
     }
+    &_md_act {
+      @include tablet {
+        display: block;
+      }
+    }
+    &_md_hd {
+      @include tablet {
+        display: none;
+      }
+    }
+
     @include flex(space-between, center);
     // ---------top right--------
     &_right {
