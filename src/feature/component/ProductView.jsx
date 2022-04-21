@@ -6,6 +6,7 @@ import { doc, setDoc } from 'firebase/firestore';
 
 import { db } from '../../Firesbase/FirebaseConfig';
 import { v4 as uuidv4 } from 'uuid';
+import { addCart } from '../../app/CartSlice';
 
 function ProductView() {
   const id = useParams();
@@ -37,6 +38,17 @@ function ProductView() {
         email: user.email,
         pid,
       });
+      dispatch(
+        addCart({
+          id: item.products.id,
+          sum: qty * item.products.price,
+          quantyti: qty,
+          displayName: user.displayName,
+          ...item,
+          email: user.email,
+          pid,
+        })
+      );
       history.push('/cart');
     } else {
       history.push('/login');

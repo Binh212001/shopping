@@ -23,6 +23,9 @@ const CartSlice = createSlice({
     status: null,
   },
   reducers: {
+    addCart: (state, { payload }) => {
+      state.products.push(payload);
+    },
     removeProduct: (state, action) => {
       console.log(action.payload);
       state.products = delItem(state.products, action.payload);
@@ -60,5 +63,5 @@ const findIndex = (arr, id) => {
 
   return pos;
 };
-export const { removeProduct, updateProduct } = CartSlice.actions;
+export const { removeProduct, updateProduct, addCart } = CartSlice.actions;
 export default CartSlice.reducer;
