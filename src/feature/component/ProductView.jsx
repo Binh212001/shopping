@@ -6,7 +6,6 @@ import { doc, setDoc } from 'firebase/firestore';
 
 import { db } from '../../Firesbase/FirebaseConfig';
 import { v4 as uuidv4 } from 'uuid';
-import { addCart } from '../../app/CartSlice';
 
 function ProductView() {
   const id = useParams();
@@ -18,37 +17,30 @@ function ProductView() {
   const item = useSelector((state) => state.Productid);
 
   const user = useSelector((state) => state.User.user);
-
+  const { displayName, email, uid } = user;
   useEffect(() => {
     dispatch(getByid(id));
   }, [dispatch, id]);
 
   //create param product to add to cart
 
-  const onClickPr = async (user) => {
+  let product = {
+    id: item.products.id,
+    ...item,
+    quantyti: qty,
+    sum: qty * item.products.price,
+    displayName,
+    email,
+    uid,
+  };
+  const onClickPr = async (product, user) => {
     if (user) {
       const pid = uuidv4();
       history.push('/cart');
       await setDoc(doc(db, 'cart', pid), {
-        id: item.products.id,
-        sum: qty * item.products.price,
-        quantyti: qty,
-        displayName: user.displayName,
-        ...item,
-        email: user.email,
+        ...product,
         pid,
       });
-      dispatch(
-        addCart({
-          id: item.products.id,
-          sum: qty * item.products.price,
-          quantyti: qty,
-          displayName: user.displayName,
-          ...item,
-          email: user.email,
-          pid,
-        })
-      );
       history.push('/cart');
     } else {
       history.push('/login');
@@ -98,7 +90,7 @@ function ProductView() {
         <button
           className="view__right__buy"
           onClick={() => {
-            onClickPr(user);
+            onClickPr(product, user);
           }}
         >
           Mua Hang

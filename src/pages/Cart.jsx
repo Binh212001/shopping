@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import ProductCart from '../feature/component/ProductCart';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { addCart, getCart, removeProduct } from '../app/CartSlice';
+import { getCart, removeProduct } from '../app/CartSlice';
 
 function Cart() {
   const user = useSelector((state) => state.User.user);
