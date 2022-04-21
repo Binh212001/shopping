@@ -48,7 +48,7 @@ function ProductList() {
                 slideIndex === index + 1 ? 'slide active-anim' : 'slide'
               }
             >
-              <img src={obj.slide} />
+              <img src={obj.slide} alt={index} />
             </div>
           );
         })}

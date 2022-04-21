@@ -17,28 +17,24 @@ function ProductView() {
   const item = useSelector((state) => state.Productid);
 
   const user = useSelector((state) => state.User.user);
-  const { displayName, email, uid } = user;
+
   useEffect(() => {
     dispatch(getByid(id));
   }, [dispatch, id]);
 
   //create param product to add to cart
 
-  let product = {
-    id: item.products.id,
-    ...item,
-    quantyti: qty,
-    sum: qty * item.products.price,
-    displayName,
-    email,
-    uid,
-  };
-  const onClickPr = async (product, user) => {
+  const onClickPr = async (user) => {
     if (user) {
       const pid = uuidv4();
       history.push('/cart');
       await setDoc(doc(db, 'cart', pid), {
-        ...product,
+        id: item.products.id,
+        sum: qty * item.products.price,
+        quantyti: qty,
+        displayName: user.displayName,
+        ...item,
+        email: user.email,
         pid,
       });
       history.push('/cart');
@@ -90,7 +86,7 @@ function ProductView() {
         <button
           className="view__right__buy"
           onClick={() => {
-            onClickPr(product, user);
+            onClickPr(user);
           }}
         >
           Mua Hang
